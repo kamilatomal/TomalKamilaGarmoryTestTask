@@ -1,26 +1,27 @@
 using System;
 using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class JSONReader : MonoBehaviour
+public class GameInitializer : MonoBehaviour
 {
     private GameServerMock _gameServerMock;
     private ItemsData _itemsData;
     private Coroutine _initializedCoroutine;
+    private CancellationTokenSource _cancellationTokenSource;
+    private CancellationToken _cancellationToken;
 
     private void Awake()
     {
-         _gameServerMock = new GameServerMock();
+        _cancellationTokenSource = new CancellationTokenSource();
+        _cancellationToken = _cancellationTokenSource.Token;
+        _gameServerMock = new GameServerMock();
     }
-    
-    public void InitializeData()
+
+    public void OnApplicationQuit()
     {
-        if (_initializedCoroutine != null)
-        {
-            return;
-        }
-        _initializedCoroutine = StartCoroutine(InitializeData(GetItemsData, true));
+        _cancellationTokenSource.Cancel();
     }
 
     private IEnumerator InitializeData(Action onInitialized, bool forceReinitialize = false)
@@ -32,18 +33,14 @@ public class JSONReader : MonoBehaviour
             yield break;
         }
         Task<string> task = _gameServerMock.GetItemsAsync();
-        yield return new WaitUntil(() => task.IsCompleted);
+        yield return new WaitUntil(() => task.IsCompleted || _cancellationToken.IsCancellationRequested);
+        if (_cancellationToken.IsCancellationRequested)
+        {
+            yield break;
+        }
         _itemsData = JsonUtility.FromJson<ItemsData>(task.Result);
         onInitialized?.Invoke();
         _initializedCoroutine = null;
-    }
-    
-    public void GetItemsData(ItemsData root)
-    {
-        foreach (ItemData itemData in root.Items)
-        {
-            Debug.Log($" \n Name: {itemData.Name} \n Category: {itemData.Category}");
-        }
     }
     
     private async void GetItemsData()
@@ -60,7 +57,21 @@ public class JSONReader : MonoBehaviour
 
     private async Task DebugTest(ItemData itemData)
     {
+        if (_cancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
+
         Debug.Log($" \n Name: {itemData.Name} \n Category: {itemData.Category}");
-        await Task.Delay(2000);
+        await Task.Delay(1000);
+    }
+    
+    public void PlayGame()
+    {
+        if (_initializedCoroutine != null)
+        {
+            return;
+        }
+        _initializedCoroutine = StartCoroutine(InitializeData(GetItemsData, true));
     }
 }
