@@ -14,6 +14,8 @@ public class ItemConfig : ScriptableObject
 
     #region public fields
 
+    public Sprite Sprite => _sprite;
+    
     #endregion
 
     #region non public methods

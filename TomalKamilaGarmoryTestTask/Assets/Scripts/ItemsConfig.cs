@@ -14,6 +14,7 @@ public class ItemsConfig : ScriptableObject
     #endregion
 
     #region public fields
+    
 
     #endregion
 

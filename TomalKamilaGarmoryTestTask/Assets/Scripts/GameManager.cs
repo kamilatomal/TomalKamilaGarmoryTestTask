@@ -8,11 +8,15 @@ public class GameManager : MonoBehaviour
 {
     #region non public fields
 
-    [SerializeField] private PlayerComponentsContainer _playerComponentsContainer;
-
+    [SerializeField] 
+    private PlayerComponentsContainer _playerComponentsContainer;
+    [SerializeField]
+    private GameConfig _gameConfig;
+    
     private static GameManager _instance;
     private GameServerMock _gameServerMock;
-    private ItemsData _itemsData;
+    private PlayerData _playerData;
+
     private Coroutine _initializedCoroutine;
     private CancellationTokenSource _cancellationTokenSource;
     private CancellationToken _cancellationToken;
@@ -22,6 +26,10 @@ public class GameManager : MonoBehaviour
     #region public fields
 
     public PlayerComponentsContainer PlayerComponentsContainer => _playerComponentsContainer;
+    public PlayerData PlayerData => _playerData;
+    public GameConfig GameConfig => _gameConfig;
+    
+    public bool IsInitialized { get; private set; }
 
     #endregion
 
@@ -49,13 +57,23 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator InitializeData(Action onInitialized, bool forceReinitialize = false)
     {
-        if (_itemsData != null && !forceReinitialize)
+        if (_playerData != null && !forceReinitialize)
         {
             onInitialized?.Invoke();
             _initializedCoroutine = null;
             yield break;
         }
 
+        _playerData = new PlayerData();
+        yield return StartCoroutine(GetItemsData());
+        onInitialized?.Invoke();
+        Debug.Log("Game Manager Initialized");
+        _initializedCoroutine = null;
+        IsInitialized = true;
+    }
+
+    private IEnumerator GetItemsData(Action onComplete = null)
+    {
         Task<string> task = _gameServerMock.GetItemsAsync();
         yield return new WaitUntil(() => task.IsCompleted || _cancellationToken.IsCancellationRequested);
         if (_cancellationToken.IsCancellationRequested)
@@ -63,36 +81,9 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
-        _itemsData = JsonUtility.FromJson<ItemsData>(task.Result);
-        onInitialized?.Invoke();
-        _initializedCoroutine = null;
-    }
-
-    private void GetItemsData()
-    {
-        if (_itemsData == null)
-        {
-            return;
-        }
-
-        foreach (ItemData itemData in _itemsData.Items)
-        {
-            DebugTest(itemData);
-        }
-    }
-
-    private void DebugTest(ItemData itemData)
-    {
-        if (_cancellationToken.IsCancellationRequested)
-        {
-            return;
-        }
-        Debug.Log($" \n Name: {itemData.Name} \n Category: {itemData.Category} " +
-                  $"\n Rarity: {itemData.Rarity} \n Damage: {itemData.Damage}" +
-                  $"\n HealthPoints: {itemData.HealthPoints} \n Defense: {itemData.Defense}" +
-                  $"\n LifeSteal: {itemData.LifeSteal} \n CriticalStrikeChance: {itemData.CriticalStrikeChance}" +
-                  $"\n AttackSpeed: {itemData.AttackSpeed} \n MovementSpeed: {itemData.MovementSpeed}" +
-                  $"\n Luck: {itemData.Luck}");
+        ItemsData itemsData = JsonUtility.FromJson<ItemsData>(task.Result);
+        _playerData.SetItemsData(itemsData);
+        onComplete?.Invoke();
     }
 
     #endregion
@@ -108,7 +99,7 @@ public class GameManager : MonoBehaviour
     {
         _cancellationTokenSource.Cancel();
     }
-
+    
     public void PlayGame()
     {
         if (_initializedCoroutine != null)
@@ -116,7 +107,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _initializedCoroutine = StartCoroutine(InitializeData(GetItemsData, true));
+        _initializedCoroutine = StartCoroutine(InitializeData(null,true));
     }
 
     #endregion

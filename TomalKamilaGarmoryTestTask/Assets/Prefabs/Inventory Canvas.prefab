@@ -719,7 +719,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3201359589232103780}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5316653191102395748}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: PressButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1584991257965634416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,7 +1386,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6169119659206805509}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5316653191102395748}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: PressButtonUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3587856169445305397
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,5 +19,18 @@ public class ItemsData
 
     #region public methods
 
+    public List<ItemData> GetItems(ItemType itemType)
+    {
+        List<ItemData> result = new List<ItemData>();
+        for (int i = 0; i < Items.Count; i++)
+        {
+            if (Items[i].GetItemType() == itemType)
+            {
+                result.Add(Items[i]);
+            }
+        }
+        return result;
+    }
+
     #endregion
 }

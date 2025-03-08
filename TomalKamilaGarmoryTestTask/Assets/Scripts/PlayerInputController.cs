@@ -19,9 +19,9 @@ public class PlayerInputController : MonoBehaviour
 
     public void OnInventoryOpen(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManager.GetInstance().IsInitialized)
         {
-            GameManager.GetInstance().PlayerComponentsContainer.Inventory.SetInventoryActive();
+            GameManager.GetInstance().PlayerComponentsContainer.Inventory.ToggleInventoryActive();
         }
     }
 
