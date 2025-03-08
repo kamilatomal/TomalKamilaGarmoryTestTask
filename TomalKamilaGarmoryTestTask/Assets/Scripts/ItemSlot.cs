@@ -8,6 +8,9 @@ public class ItemSlot : MonoBehaviour
     [SerializeField]
     private Image _image;
     
+    [SerializeField] 
+    private ItemType _itemType = ItemType.None;
+    
     #endregion
 
     #region public fields
