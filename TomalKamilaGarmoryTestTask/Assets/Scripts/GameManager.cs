@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         _initializedCoroutine = null;
     }
 
-    private async void GetItemsData()
+    private void GetItemsData()
     {
         if (_itemsData == null)
         {
@@ -77,19 +77,22 @@ public class GameManager : MonoBehaviour
 
         foreach (ItemData itemData in _itemsData.Items)
         {
-            await DebugTest(itemData);
+            DebugTest(itemData);
         }
     }
 
-    private async Task DebugTest(ItemData itemData)
+    private void DebugTest(ItemData itemData)
     {
         if (_cancellationToken.IsCancellationRequested)
         {
             return;
         }
-
-        Debug.Log($" \n Name: {itemData.Name} \n Category: {itemData.Category}");
-        await Task.Delay(1000);
+        Debug.Log($" \n Name: {itemData.Name} \n Category: {itemData.Category} " +
+                  $"\n Rarity: {itemData.Rarity} \n Damage: {itemData.Damage}" +
+                  $"\n HealthPoints: {itemData.HealthPoints} \n Defense: {itemData.Defense}" +
+                  $"\n LifeSteal: {itemData.LifeSteal} \n CriticalStrikeChance: {itemData.CriticalStrikeChance}" +
+                  $"\n AttackSpeed: {itemData.AttackSpeed} \n MovementSpeed: {itemData.MovementSpeed}" +
+                  $"\n Luck: {itemData.Luck}");
     }
 
     #endregion
