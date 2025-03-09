@@ -15,11 +15,16 @@ MonoBehaviour:
   _rarityWithSprite:
   - _rarity: 0
     _sprite: {fileID: 21300000, guid: 5be4320d448dd9040a0c9abd3f40f100, type: 3}
+    _name: Common
   - _rarity: 1
     _sprite: {fileID: 21300000, guid: 6ea0dbadcf0b28f489fb0a777ef529f4, type: 3}
+    _name: Uncommon
   - _rarity: 2
     _sprite: {fileID: 21300000, guid: 35e96054fbe19d4468494a8ab806345f, type: 3}
+    _name: Rare
   - _rarity: 3
     _sprite: {fileID: 21300000, guid: 72afd0e677f3d364ba6d5dce08a7b2a1, type: 3}
+    _name: Epic
   - _rarity: 4
     _sprite: {fileID: 21300000, guid: 5d4d6e1bf40b87c4db405ecb536a1222, type: 3}
+    _name: Legendary

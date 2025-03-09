@@ -11,6 +11,8 @@ namespace Items
         private int _rarity;
         [SerializeField]
         private Sprite _sprite;
+        [SerializeField] 
+        private string _name;
     
         #endregion
 
@@ -18,6 +20,7 @@ namespace Items
 
         public int Rarity => _rarity;
         public Sprite Sprite => _sprite;
+        public string Name => _name;
         
         #endregion
 
