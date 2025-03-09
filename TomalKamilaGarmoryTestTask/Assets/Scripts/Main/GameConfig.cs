@@ -10,6 +10,9 @@ namespace Main
 
         [SerializeField]
         private ItemsConfig _itemsConfig;
+        
+        [SerializeField]
+        private RarityConfig _rarityConfig;
   
         #endregion
 

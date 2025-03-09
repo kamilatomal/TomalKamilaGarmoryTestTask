@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   _itemsConfig: {fileID: 11400000, guid: f77b26b2a99a22e4db91c757cf2d09e4, type: 2}
+  _rarityConfig: {fileID: 11400000, guid: 5c7b380c499f40240bf5a2cae8248556, type: 2}
