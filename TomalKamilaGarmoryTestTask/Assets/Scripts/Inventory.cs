@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private int _itemIndexOffsetStep = 4;
     
-    private List<ItemData> _items;
+    private List<ItemData> _inventoryItems;
     private int _itemIndexOffset;
 
     #endregion
@@ -25,7 +25,7 @@ public class Inventory : MonoBehaviour
 
     private void SetupSlots()
     {
-        if (_items == null)
+        if (_inventoryItems == null)
         {
             return;
         }
@@ -33,13 +33,13 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < _itemSlots.Count; i++)
         {
             int itemIndex = i + _itemIndexOffset;
-            if (_items.Count <= itemIndex)
+            if (_inventoryItems.Count <= itemIndex)
             {
                 _itemSlots[i].Setup(null);
                 continue;
             }
 
-            _itemSlots[i].Setup(_items[itemIndex]);
+            _itemSlots[i].Setup(_inventoryItems[itemIndex]);
         }
     }
 
@@ -55,14 +55,14 @@ public class Inventory : MonoBehaviour
 
     public void SetupInventory()
     {
-        _items = GameManager.GetInstance().PlayerData.GetItemsData().Items;
+        _inventoryItems = GameManager.GetInstance().PlayerData.GetInventory();
         _itemIndexOffset = 0;
         SetupSlots();
     }
 
     public void SetupInventoryWithType(ItemType itemType)
     {
-        _items = GameManager.GetInstance().PlayerData.GetItemsData().GetItems(itemType);
+        _inventoryItems = GameManager.GetInstance().PlayerData.GetInventory(itemType);
         _itemIndexOffset = 0;
         SetupSlots();
     }
@@ -74,7 +74,7 @@ public class Inventory : MonoBehaviour
 
     public void PressButtonDown()
     {
-        if (_itemIndexOffset + _itemIndexOffsetStep > _items.Count - 1)
+        if (_itemIndexOffset + _itemIndexOffsetStep > _inventoryItems.Count - 1)
         {
             return;
         }

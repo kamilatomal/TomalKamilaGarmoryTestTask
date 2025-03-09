@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     private GameServerMock _gameServerMock;
     private PlayerData _playerData;
-
     private Coroutine _initializedCoroutine;
     private CancellationTokenSource _cancellationTokenSource;
     private CancellationToken _cancellationToken;
@@ -67,7 +66,6 @@ public class GameManager : MonoBehaviour
         _playerData = new PlayerData();
         yield return StartCoroutine(GetItemsData());
         onInitialized?.Invoke();
-        Debug.Log("Game Manager Initialized");
         _initializedCoroutine = null;
         IsInitialized = true;
     }
@@ -82,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
 
         ItemsData itemsData = JsonUtility.FromJson<ItemsData>(task.Result);
-        _playerData.SetItemsData(itemsData);
+        _playerData.InitPlayer(itemsData);
         onComplete?.Invoke();
     }
 
