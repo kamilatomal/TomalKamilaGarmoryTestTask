@@ -11,15 +11,61 @@ namespace Player
         private ItemsData _itemsData;
         private List<ItemData> _inventory;
         private List<ItemData> _equippedItems;
-    
+
+        private int _rarity;
+        private int _damage;
+        private int _healthPoints;
+        private int _defense;
+        private float _lifeSteal;
+        private float _criticalChance;
+        private float _attackSpeed;
+        private float _movementSpeed;
+        private float _luck;
+        
         #endregion
 
         #region public fields
+
+        public Action OnStatsUpdated;
+        public int Rarity => _rarity;
+        public int Damage => _damage;
+        public int HealthPoints => _healthPoints;
+        public int Defense => _defense;
+        public float LifeSteal => _lifeSteal;
+        public float CriticalChance => _criticalChance;
+        public float AttackSpeed => _attackSpeed;
+        public float MovementSpeed => _movementSpeed;
+        public float Luck => _luck;
     
         #endregion
 
         #region non public methods
 
+        private void UpdatePlayerStats()
+        {
+            _damage = 0;
+            _healthPoints = 0;
+            _defense = 0;
+            _lifeSteal = 0;
+            _criticalChance = 0;
+            _attackSpeed = 0;
+            _movementSpeed = 0;
+            _luck = 0;
+            
+            foreach (ItemData item in _equippedItems)
+            {
+                _damage += item.Damage;
+                _healthPoints += item.HealthPoints;
+                _defense += item.Defense;
+                _lifeSteal += item.LifeSteal;
+                _criticalChance += item.CriticalStrikeChance;
+                _attackSpeed += item.AttackSpeed;
+                _movementSpeed += item.MovementSpeed;
+                _luck += item.Luck;
+            }
+            OnStatsUpdated?.Invoke();
+        }
+        
         #endregion
 
         #region public methods
@@ -71,6 +117,7 @@ namespace Player
             }
             _inventory.Remove(item);
             _equippedItems.Add(item);
+            UpdatePlayerStats();
         }
     
         public void UnEquipItem(ItemData item)
@@ -81,6 +128,7 @@ namespace Player
             }
             _equippedItems.Remove(item);
             _inventory.Add(item);
+            UpdatePlayerStats();
         }
     
         #endregion
