@@ -14,7 +14,7 @@ namespace Items
         #endregion
 
         #region public fields
-
+        
 
         #endregion
 
@@ -25,8 +25,19 @@ namespace Items
 
         #region public methods
 
+        public Sprite GetRaritySprite(int rarity)
+        {
+            for (int i = 0; i < _rarityWithSprite.Count; i++)
+            {
+                if (_rarityWithSprite[i].Rarity == rarity)
+                {
+                    return _rarityWithSprite[i].Sprite;
+                }
+            }
 
+            return null;
+        }
+        
         #endregion
-
     }
 }

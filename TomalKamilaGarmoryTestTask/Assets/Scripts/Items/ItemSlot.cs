@@ -8,11 +8,12 @@ namespace Items
 {
     public class ItemSlot : MonoBehaviour
     {
-
         #region non public fields
 
         [SerializeField]
         private Image _image;
+        [SerializeField]
+        private Image _rarityImage;
         [SerializeField] 
         private ItemType _itemType = ItemType.None;
         [SerializeField] 
@@ -37,6 +38,8 @@ namespace Items
             _itemConfig = null;
             _image.sprite = null;
             _image.enabled = false;
+            _rarityImage.sprite = null;
+            _rarityImage.enabled = false;
         }
     
         private bool IsSlotValid(ItemType itemType)
@@ -87,6 +90,7 @@ namespace Items
     
         public void Setup(ItemData itemData)
         {
+            GameConfig gameConfig = GameManager.GetInstance().GameConfig;
             if (itemData == null)
             {
                 ClearSlot();
@@ -98,13 +102,15 @@ namespace Items
                 return;
             }
             _itemData = itemData;
-            _itemConfig = GameManager.GetInstance().GameConfig.GetItemsConfig().GetItemConfig(_itemData.Name);
+            _itemConfig = gameConfig.GetItemsConfig().GetItemConfig(_itemData.Name);
             if (_itemConfig == null)
             {
                 return;
             }
             _image.sprite = _itemConfig.Sprite;
             _image.enabled = true;
+            _rarityImage.sprite = gameConfig.GetRarityConfig().GetRaritySprite(_itemData.Rarity);
+            _rarityImage.enabled = true;
             _draggableGameObject.Setup(OnDragEnd);
         }
     

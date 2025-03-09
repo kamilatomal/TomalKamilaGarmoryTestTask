@@ -17,8 +17,7 @@ namespace Main
         #endregion
 
         #region public fields
-
-    
+        
         #endregion
 
         #region non public methods
@@ -30,6 +29,11 @@ namespace Main
         public ItemsConfig GetItemsConfig()
         {
             return _itemsConfig;
+        }
+        
+        public RarityConfig GetRarityConfig()
+        {
+            return _rarityConfig;
         }
     
         #endregion

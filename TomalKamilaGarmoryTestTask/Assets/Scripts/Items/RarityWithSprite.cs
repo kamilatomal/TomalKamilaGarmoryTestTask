@@ -16,7 +16,9 @@ namespace Items
 
         #region public fields
 
-
+        public int Rarity => _rarity;
+        public Sprite Sprite => _sprite;
+        
         #endregion
 
         #region non public methods
