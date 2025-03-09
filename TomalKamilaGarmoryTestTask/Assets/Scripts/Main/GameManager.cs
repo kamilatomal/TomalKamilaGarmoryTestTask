@@ -11,16 +11,12 @@ namespace Main
     public class GameManager : MonoBehaviour
     {
         #region non public fields
-
+        
         [SerializeField] 
-        private PlayerComponentsContainer _playerComponentsContainer;
-        [SerializeField]
         private GameConfig _gameConfig;
-    
+
         private static GameManager _instance;
-        private GameServerMock _gameServerMock;
         private PlayerData _playerData;
-        private Coroutine _initializedCoroutine;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken;
 
@@ -28,10 +24,9 @@ namespace Main
 
         #region public fields
 
-        public PlayerComponentsContainer PlayerComponentsContainer => _playerComponentsContainer;
         public PlayerData PlayerData => _playerData;
         public GameConfig GameConfig => _gameConfig;
-    
+
         public bool IsInitialized { get; private set; }
 
         #endregion
@@ -43,40 +38,37 @@ namespace Main
             if (_instance != null)
             {
                 Destroy(this);
+                return;
             }
-            else
-            {
-                _instance = this;
-            }
+            _instance = this;
+            Initialize();
         }
 
-        private void Start()
+        private void Initialize()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _cancellationToken = _cancellationTokenSource.Token;
-            _gameServerMock = new GameServerMock();
+            StartCoroutine(InitializeData(null,true));
         }
-
 
         private IEnumerator InitializeData(Action onInitialized, bool forceReinitialize = false)
         {
             if (_playerData != null && !forceReinitialize)
             {
                 onInitialized?.Invoke();
-                _initializedCoroutine = null;
                 yield break;
             }
 
             _playerData = new PlayerData();
             yield return StartCoroutine(GetItemsData());
             onInitialized?.Invoke();
-            _initializedCoroutine = null;
             IsInitialized = true;
         }
 
         private IEnumerator GetItemsData(Action onComplete = null)
         {
-            Task<string> task = _gameServerMock.GetItemsAsync();
+            GameServerMock gameServerMock = new GameServerMock();
+            Task<string> task = gameServerMock.GetItemsAsync();
             yield return new WaitUntil(() => task.IsCompleted || _cancellationToken.IsCancellationRequested);
             if (_cancellationToken.IsCancellationRequested)
             {
@@ -100,16 +92,6 @@ namespace Main
         public void OnApplicationQuit()
         {
             _cancellationTokenSource.Cancel();
-        }
-    
-        public void PlayGame()
-        {
-            if (_initializedCoroutine != null)
-            {
-                return;
-            }
-
-            _initializedCoroutine = StartCoroutine(InitializeData(null,true));
         }
 
         #endregion

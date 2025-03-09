@@ -130,6 +130,11 @@ namespace Player
             _inventory.Add(item);
             UpdatePlayerStats();
         }
+
+        public float GetMovementMultiplier()
+        {
+            return _movementSpeed / 100f;
+        }
     
         #endregion
     }
