@@ -14,6 +14,8 @@ namespace Main
         private Transform _playerSpawnPoint;
         [SerializeField] 
         private Button _playGameButton;
+        [SerializeField]
+        private Camera _mainCamera;
 
         #endregion
 
@@ -42,6 +44,7 @@ namespace Main
 
             Instantiate(_playerControllerPrefab, _playerSpawnPoint);
             _playGameButton.gameObject.SetActive(false);
+            _mainCamera.gameObject.SetActive(false);
         }
 
         #endregion

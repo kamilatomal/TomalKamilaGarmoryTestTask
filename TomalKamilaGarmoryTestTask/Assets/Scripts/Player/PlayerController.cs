@@ -7,6 +7,8 @@ namespace Player
     {
         #region non public fields
     
+        [SerializeField]
+        private MouseLook _mouseLook;
         [SerializeField] 
         private PlayerMovement _playerMovement;
         [SerializeField] 
@@ -16,6 +18,7 @@ namespace Player
 
         #region public fields
         
+        public MouseLook MouseLook => _mouseLook;
         public Inventory Inventory => _inventory;
         public PlayerMovement PlayerMovement => _playerMovement;
         
@@ -28,7 +31,6 @@ namespace Player
 
         #region public methods
 
-        
         #endregion
     }
 }

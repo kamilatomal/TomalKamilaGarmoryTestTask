@@ -31,12 +31,34 @@ namespace Player
 
         public void OnWalk(InputAction.CallbackContext context)
         {
-            Vector2 movementDirection = Vector2.zero;
-            if (context.performed && GameManager.GetInstance().IsInitialized)
+            Vector2 movementVector = Vector2.zero;
+            if (context.performed && !_playerController.Inventory.IsInventoryOpen && GameManager.GetInstance().IsInitialized)
             {
-                movementDirection = context.ReadValue<Vector2>();
+                movementVector = context.ReadValue<Vector2>();
+                _playerController.PlayerMovement.SetCanMove(true);
+                _playerController.PlayerMovement.OnWalk(movementVector);
             }
-            _playerController.PlayerMovement.OnWalk(movementDirection);
+            
+            if (context.canceled)
+            {
+                _playerController.PlayerMovement.SetCanMove(false);
+            }
+        }
+
+        public void OnMouseLook(InputAction.CallbackContext context)
+        {
+            Vector2 lookVector = Vector2.zero;
+            if (context.performed && !_playerController.Inventory.IsInventoryOpen && GameManager.GetInstance().IsInitialized)
+            {
+                lookVector = context.ReadValue<Vector2>();
+                _playerController.MouseLook.SetCanLook(true);
+                _playerController.MouseLook.OnLook(lookVector);
+            }
+            if (context.canceled)
+            {
+                _playerController.MouseLook.SetCanLook(false);
+            }
+            
         }
 
         #endregion

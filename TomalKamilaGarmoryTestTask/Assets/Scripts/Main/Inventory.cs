@@ -17,10 +17,13 @@ namespace Main
     
         private List<ItemData> _inventoryItems;
         private int _itemIndexOffset;
+        private bool _isInventoryOpen;
 
         #endregion
 
         #region public fields
+
+        public bool IsInventoryOpen => _isInventoryOpen;
 
         #endregion
 
@@ -53,6 +56,8 @@ namespace Main
         public void ToggleInventoryActive()
         {
             _inventoryCanvas.gameObject.SetActive(!_inventoryCanvas.gameObject.activeSelf);
+            _isInventoryOpen = _inventoryCanvas.gameObject.activeSelf;
+            Cursor.lockState = _isInventoryOpen ? CursorLockMode.Confined : CursorLockMode.Locked;
             SetupInventory();
         }
 
