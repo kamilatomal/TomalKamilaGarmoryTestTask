@@ -289,6 +289,7 @@ MonoBehaviour:
   _playerMovement: {fileID: 5060604640477636451}
   _inventory: {fileID: 6491278423727219839}
   _weapon: {fileID: 878876107481416662}
+  _healthController: {fileID: 4007204344028087814}
 --- !u!54 &8607677561765353412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2173,7 +2174,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4466621631890832078, guid: 25a8f7699087eed49ba83b9bf5a5eaa0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

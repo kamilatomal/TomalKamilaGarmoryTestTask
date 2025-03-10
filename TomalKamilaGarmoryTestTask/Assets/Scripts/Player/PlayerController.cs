@@ -15,6 +15,8 @@ namespace Player
         private Inventory _inventory;
         [SerializeField] 
         private Weapon _weapon;
+        [SerializeField]
+        private HealthController _healthController;
     
         #endregion
 
@@ -24,11 +26,12 @@ namespace Player
         public Inventory Inventory => _inventory;
         public PlayerMovement PlayerMovement => _playerMovement;
         public Weapon Weapon => _weapon;
-        
+        public HealthController HealthController => _healthController;
+
         #endregion
 
         #region non public methods
-        
+
 
         #endregion
 
