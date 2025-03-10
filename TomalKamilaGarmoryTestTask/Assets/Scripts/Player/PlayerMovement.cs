@@ -9,7 +9,6 @@ namespace Player
 
         [SerializeField] private float _basicMoveSpeed;
         [SerializeField] private Rigidbody _myRigidbody;
-        [SerializeField] private CharacterController _characterController;
 
         private Vector3 _movementVector;
         private bool _canMove;

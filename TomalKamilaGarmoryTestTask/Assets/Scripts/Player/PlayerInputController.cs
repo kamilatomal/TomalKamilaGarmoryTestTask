@@ -58,7 +58,14 @@ namespace Player
             {
                 _playerController.MouseLook.SetCanLook(false);
             }
-            
+        }
+        
+        public void OnShoot(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _playerController.Weapon.OnShoot(_playerController.Weapon.GetShootTargetPosition());
+            }
         }
 
         #endregion

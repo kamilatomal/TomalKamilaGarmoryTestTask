@@ -1,4 +1,5 @@
 using Player;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ namespace Main
         [SerializeField] 
         private Button _playGameButton;
         [SerializeField]
-        private Camera _mainCamera;
+        private CinemachineCamera _cinemachineCamera;
 
         #endregion
 
@@ -42,9 +43,9 @@ namespace Main
                 return;
             }
 
-            Instantiate(_playerControllerPrefab, _playerSpawnPoint);
+            var player = Instantiate(_playerControllerPrefab, _playerSpawnPoint);
             _playGameButton.gameObject.SetActive(false);
-            _mainCamera.gameObject.SetActive(false);
+            _cinemachineCamera.Target.TrackingTarget = player.MouseLook.transform;
         }
 
         #endregion

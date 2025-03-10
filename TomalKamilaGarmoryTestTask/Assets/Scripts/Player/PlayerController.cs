@@ -6,13 +6,15 @@ namespace Player
     public class PlayerController : MonoBehaviour
     {
         #region non public fields
-    
+
         [SerializeField]
         private MouseLook _mouseLook;
         [SerializeField] 
         private PlayerMovement _playerMovement;
         [SerializeField] 
         private Inventory _inventory;
+        [SerializeField] 
+        private Weapon _weapon;
     
         #endregion
 
@@ -21,6 +23,7 @@ namespace Player
         public MouseLook MouseLook => _mouseLook;
         public Inventory Inventory => _inventory;
         public PlayerMovement PlayerMovement => _playerMovement;
+        public Weapon Weapon => _weapon;
         
         #endregion
 
