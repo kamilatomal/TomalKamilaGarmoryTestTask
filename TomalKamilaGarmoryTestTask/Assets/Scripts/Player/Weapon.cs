@@ -5,6 +5,8 @@ namespace Player
 {
     public class Weapon : MonoBehaviour
     {
+        #region non public fields
+
         [SerializeField]
         private ProjectileConfig _projectileConfig;
         [SerializeField]
@@ -13,8 +15,20 @@ namespace Player
         private LayerMask _layerMask;
 
         private Projectile _createdProjectile;
+    
+        #endregion
 
+        #region public fields
 
+    
+        #endregion
+
+        #region non public methods
+
+        #endregion
+
+        #region public methods
+    
         public void OnShoot(Vector3 targetPosition)
         {
             Vector3 aimDirection = (targetPosition - _projectileSpawnPoint.transform.position).normalized;
@@ -44,5 +58,7 @@ namespace Player
 
             return mouseWorldPosition;
         }
+
+        #endregion
     }
 }

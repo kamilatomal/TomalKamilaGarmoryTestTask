@@ -5,6 +5,8 @@ namespace Main
 {
     public class PoolManager : MonoBehaviour
     {
+        #region non public fields
+
         [SerializeField]
         private Transform _projectilesContainer;
         [SerializeField]
@@ -15,9 +17,16 @@ namespace Main
         private int _maxCapacity = 300;
 
         private ObjectPool<Projectile> _projectilePool;
-        
-        public static PoolManager Instance { get; private set; }
+    
+        #endregion
 
+        #region public fields
+
+        public static PoolManager Instance { get; private set; }
+    
+        #endregion
+
+        #region non public methods
         private void Awake()
         {
             if (Instance != null)
@@ -29,7 +38,6 @@ namespace Main
                 Instance = this;
             }
         }
-
         private void Start()
         {
             _projectilePool = new ObjectPool<Projectile>(CreateProjectile, (Projectile projectile) =>
@@ -43,7 +51,6 @@ namespace Main
                 Destroy(projectile.gameObject);
             }, false, _defaultCapacity, _maxCapacity);
         }
-
         private Projectile CreateProjectile()
         {
             Projectile projectile = Instantiate(_projectilePrefab);
@@ -51,6 +58,10 @@ namespace Main
             return projectile;
         }
 
+        #endregion
+
+        #region public methods
+        
         public Projectile GetProjectile()
         {
             Projectile projectile = _projectilePool.Get();
@@ -62,5 +73,7 @@ namespace Main
             _projectilePool.Release(projectile);
             projectile.transform.SetParent(_projectilesContainer);
         }
+
+        #endregion
     }
 }

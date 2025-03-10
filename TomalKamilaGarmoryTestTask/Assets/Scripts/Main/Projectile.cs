@@ -4,9 +4,19 @@ namespace Main
 {
     public class Projectile : MonoBehaviour
     {
+        #region non public fields
+
         private ProjectileConfig _projectileConfig;
         private float _timer = 0;
+    
+        #endregion
 
+        #region public fields
+
+    
+        #endregion
+
+        #region non public methods
         private void FixedUpdate()
         {
             if (!_projectileConfig)
@@ -31,13 +41,21 @@ namespace Main
         {
             if (other.gameObject.TryGetComponent(out HealthController healthController))
             {
+                healthController.DealDamage(_projectileConfig.Damage);
+
                 PoolManager.Instance.ReturnProjectileBackToPool(this);
             }   
         }
 
+        #endregion
+
+        #region public methods
+    
         public void Setup(ProjectileConfig projectileConfig)
         {
             _projectileConfig = projectileConfig;
         }
+
+        #endregion
     }
 }

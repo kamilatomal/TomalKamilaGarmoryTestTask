@@ -7,23 +7,31 @@ namespace Main
 {
     public class HealthController : MonoBehaviour
     {
+        #region non public fields
         [SerializeField]
         private float _dieDelay;
         [SerializeField]
         private float _maxHealthValue;
         [SerializeField]
-        private Image _healthValueImage;
+        private Image _healthValueImage = null;
 
         private float _healthValue;
         private Coroutine _dieCoroutine;
+        #endregion
 
+        #region public fields
         public UnityEvent OnDealDamage;
         public UnityEvent OnDied;
+        #endregion
 
+        #region non public methods
         private void Start()
         {
             _healthValue = _maxHealthValue;
-            SetHealthBar();
+            if (_healthValueImage != null)
+            {
+                SetHealthBar();
+            }
         }
 
         private IEnumerator Die()
@@ -35,9 +43,11 @@ namespace Main
 
         private void SetHealthBar()
         {
-            //_healthValueImage.fillAmount = _healthValue / _maxHealthValue;
+            _healthValueImage.fillAmount = _healthValue / _maxHealthValue;
         }
+        #endregion
 
+        #region non public methods
         public void DealDamage(float damage)
         {
             if (_healthValue > 0)
@@ -58,5 +68,6 @@ namespace Main
                 }
             }
         }
+        #endregion
     }
 }
